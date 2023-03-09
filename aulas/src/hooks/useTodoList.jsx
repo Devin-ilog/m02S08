@@ -7,17 +7,21 @@ export const useTodoList = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const getTodos = async () => {
-      setIsLoading(true);
-      const { data, error } = await apiService.get('todos');
-      setTodos(data);
-      setError(error);
-      setIsLoading(false);
-    };
+  const getTodos = async () => {
+    setIsLoading(true);
+    const { data, error } = await apiService.get('todos');
+    setTodos(data);
+    setError(error);
+    setIsLoading(false);
+  };
 
+  useEffect(() => {
     getTodos();
   }, []);
 
-  return { todos, error, isLoading };
+  const refetch = () => {
+    getTodos();
+  };
+
+  return { todos, error, isLoading, refetch };
 };
